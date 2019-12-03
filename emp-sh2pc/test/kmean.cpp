@@ -6,35 +6,26 @@ using namespace std;
 int LEN = 3;
 int bitsize = 20;
 
-int editDist(Integer *a, Integer *b, int m, int n){
-    Integer zero = Integer(bitsize, 0, PUBLIC);
-    Integer one = Integer(bitsize, 1, PUBLIC);
-    Bit true_val(true, PUBLIC);
-    Bit false_val(false, PUBLIC);
-    cout << "m = " << m << ", n = " << n  << endl;
-    //cout << "Is a[m] == b[n]? " << (a[m] == b[n]).reveal<bool>(PUBLIC) << endl;
-    if(m == -1)
-        return n+1;
-    else if(n == -1)
-        return m+1;
-    else if((a[m] == b[n]).reveal<bool>())
-        return editDist(a, b, m-1, n-1);
-    
-    int t1, t2, t3;
-
-    t1 = editDist(a, b, m-1, n);
-    t2 = editDist(a, b, m, n-1);
-    t3 = editDist(a, b, m-1, n-1);
-
-    return 1 + min(t1, min(t2, t3));
+Float edistance(){
 
 }
 
-void test_editDist(string inputs_a[], string inputs_b[], int len) {
+Float closestCluster(){
 
-    Integer sum(bitsize, 0, PUBLIC);
-    Integer prod(bitsize, 0, PUBLIC);
-    Integer length(bitsize, len, PUBLIC);
+}
+
+Float computeNewCluster(){
+
+}
+
+Float* kmeans(Integer *a, Integer *b, int m, int n){
+
+
+}
+
+void test_kmeans(string inputs_a[], string inputs_b[], int len) {
+
+    
     Integer a[len];
     Integer b[len];
 
@@ -58,7 +49,7 @@ int main(int argc, char** argv) {
     setup_semi_honest(io, party);
 
     if (argc != 4) {
-      cout << "Usage: ./editDist <party> <port> <bitsize>" << endl
+      cout << "Usage: ./kmeans <party> <port> <bitsize>" << endl
            << endl;
       delete io;
       return 0;
@@ -71,8 +62,8 @@ int main(int argc, char** argv) {
     char fname_a[40];
     char fname_b[40];
 
-    sprintf(fname_a, "../data/editdist/1.dat", bitsize);
-    sprintf(fname_b, "../data/editdist/2.dat", bitsize);
+    sprintf(fname_a, "data/kmeans/1.dat", bitsize);
+    sprintf(fname_b, "data/kmeans/2.dat", bitsize);
 
     ifstream infile_a(fname_a);
     ifstream infile_b(fname_b);
@@ -90,7 +81,7 @@ int main(int argc, char** argv) {
         infile_b.close();
     }
 
-    test_editDist(inputs_a, inputs_b, LEN);
+    test_kmeans(inputs_a, inputs_b, LEN);
     delete io;
 }
 
