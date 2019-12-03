@@ -4,74 +4,55 @@ using namespace emp;
 using namespace std;
 
 int LEN = 3;
-int a_len = 3, b_len = 3;
-int bitsize = 32;
-// declaring method
-Integer editDist(Integer *a, Integer *b, Integer m, Integer n);
+int bitsize = 20;
 
-Integer getVal(Integer *a, Integer idx, int len){
-    // Outputs a[idx] where a is a secret integer array of 
-    // size n and idx is a secret index.
-    Integer zero = Integer(bitsize, 1, PUBLIC);
-    int i;
-    Integer val = zero;
-    for(i = 0; i < len; i++){
-        Integer curr = Integer(bitsize, i, PUBLIC);
-        val = val.select(curr==idx, a[i]);
-    }
-    return val;
-    
-}
-
-Integer editDist(Integer *a, Integer *b, Integer m, Integer n){
+int editDist(Integer *a, Integer *b, int m, int n){
     Integer zero = Integer(bitsize, 0, PUBLIC);
     Integer one = Integer(bitsize, 1, PUBLIC);
-
-    
     Bit true_val(true, PUBLIC);
     Bit false_val(false, PUBLIC);
-    // Defining base case conditions 
-    Bit cond1 = (m == -one);
-    Bit cond2 = (n == -one);
-    Bit cond3 = (getVal(a, m, a_len) == getVal(b, n, b_len));
+    cout << "m = " << m << ", n = " << n  << endl;
+    //cout << "Is a[m] == b[n]? " << (a[m] == b[n]).reveal<bool>(PUBLIC) << endl;
+    
+    Bit cond1 = m==-1;
+    Bit cond2 = n==-1;
+    Bit cond3 = a[m] == b[n];
+    (m+1).select(cond1, n+1);
+    (n+1).select(cond2, m+1);
+    ().select(cond3, editDist(a, b, m-1, n-1));
 
-    if((cond1|cond2).reveal<bool>()){
-        //Need to return max(m, n) + 1
-        return m.select(m<n, n)+one;
-    }
-    else{
-        Integer t1 = editDist(a, b, m-one, n);
-        Integer t2 = editDist(a, b, m, n-one);
-        Integer t3 = editDist(a, b, m-one, n-one);
 
-        Integer tmp = t1.select(t1>t2, t2);
-        Integer min_val = t3.select(t3>tmp, tmp);
-        
+    if(m.select(m==-1))
+        return n+1;
+    else if(n == -1)
+        return m+1;
+    else if((a[m] == b[n]).reveal<bool>())
+        return editDist(a, b, m-1, n-1);
+    
+    int t1, t2, t3;
 
-        
-        Integer distance = (one+min_val).select(cond3, t3);
-        
-        return distance;
-    }
+    t1 = editDist(a, b, m-1, n);
+    t2 = editDist(a, b, m, n-1);
+    t3 = editDist(a, b, m-1, n-1);
+
+    return 1 + min(t1, min(t2, t3));
 
 }
-
 
 void test_editDist(string inputs_a[], string inputs_b[], int len) {
 
     Integer sum(bitsize, 0, PUBLIC);
     Integer prod(bitsize, 0, PUBLIC);
-    Integer length(bitsize, len-1, PUBLIC);
+    Integer length(bitsize, len, PUBLIC);
     Integer a[len];
     Integer b[len];
 
     for( int i=0; i<len; i++) {
         a[i] = Integer(bitsize, inputs_a[i], ALICE);
         b[i] = Integer(bitsize, inputs_b[i], BOB);
-
     }
 
-    cout << "* Edit Distance = " << editDist(a, b, length, length).reveal<int>()<<  endl;
+    cout << "Edit Distance = " << editDist(a, b, len-1, len-1)<<  endl;
 }
 
 
@@ -84,7 +65,7 @@ int main(int argc, char** argv) {
      be equal. Change it to unequal lengths.
 
     */
-    //int bitsize;    
+    int bitsize;    
 
     // run computation with semi-honest model
     int port, party;
@@ -104,12 +85,12 @@ int main(int argc, char** argv) {
 
     bitsize = atoi(argv[3]);
 
-
     char fname_a[40];
     char fname_b[40];
 
-    sprintf(fname_a, "data/editdist/1.dat");
-    sprintf(fname_b, "data/editdist/2.dat");
+    sprintf(fname_a, "../data/editdist/1.dat", bitsize);
+    sprintf(fname_b, "../data/editdist/2.dat", bitsize);
+
     ifstream infile_a(fname_a);
     ifstream infile_b(fname_b);
 
@@ -120,15 +101,14 @@ int main(int argc, char** argv) {
         for( int i=0; i<LEN; i++) {
             getline( infile_a, inputs_a[i]);
             getline( infile_b, inputs_b[i]);
+            cout << "A values " << inputs_a[i] <<", " << inputs_b[i] << endl;
         }
-
         infile_a.close();
         infile_b.close();
-        test_editDist(inputs_a, inputs_b, LEN);
-        delete io;
     }
 
-    
+    test_editDist(inputs_a, inputs_b, LEN);
+    delete io;
 }
 
 

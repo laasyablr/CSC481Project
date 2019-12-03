@@ -10,7 +10,7 @@ Integer test_passing_val(Integer a){
     return a;
 }
 
-void test_innerprod(int bitsize, string inputs_a[], string inputs_b[], int len) {
+void test_innerprod(int party, int bitsize, string inputs_a[], string inputs_b[], int len) {
 
     Integer sum(bitsize, 0, PUBLIC);
     Integer prod(bitsize, 0, PUBLIC);
@@ -28,8 +28,10 @@ void test_innerprod(int bitsize, string inputs_a[], string inputs_b[], int len) 
         cout << "a == b? "<< (a[i] == 65).reveal<bool>()<<endl;
         sum = sum + prod;
     }
-    cout << test_passing_val(a[0]).reveal<int>() << endl;
-
+    //cout << test_passing_val(a[0]).reveal<int>() << endl;
+    if(party == ALICE){
+        cout << "Inside ALICE. Revealing b = " b.reveal<int>();
+    }
     cout << "SUM: " << sum.reveal<int>() << endl;
 }
 
@@ -42,8 +44,8 @@ int main(int argc, char** argv) {
         setup_plain_prot(true, "innerprod.circuit.txt");
         bitsize = 16;
         string inputs[LEN] = {"0","0","0","0","0","0","0","0","0","0"};
-        test_innerprod(bitsize, inputs, inputs, LEN);
-        finalize_plain_prot();
+        //test_innerprod(party, bitsize, inputs, inputs, LEN);
+        //finalize_plain_prot();
 	return 0;
     }
 
@@ -87,7 +89,7 @@ int main(int argc, char** argv) {
         infile_b.close();
     }
 
-    test_innerprod(bitsize, inputs_a, inputs_b, LEN);
+    test_innerprod(party, bitsize, inputs_a, inputs_b, LEN);
     delete io;
 }
 

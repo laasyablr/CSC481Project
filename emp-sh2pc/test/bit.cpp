@@ -58,11 +58,16 @@ void test_bit() {
 						Bit b1(b[i], p[j]);
 						Bit b2(b[k], p[l]);
 						bool res = (b1^b2).reveal(XOR);
+						Bit res1(res, p[j]);
+						Bit res2(res, p[l]);
+						//cout <<"party: "<< p[j] <<", " << p[l]<< "; values: "<< b[i] <<", " << b[k] << endl;
+						
 						if(party == ALICE) {
 							io->send_data(&res, 1);
 						} else {
 							bool tmp;io->recv_data(&tmp, 1);
 							res = res != tmp;
+							//cout << res1.reveal(PUBLIC) <<", " << res2.reveal(PUBLIC) << "; res = " << res << endl;
 							if(res != (b[i] xor b[k])) {
 								cout <<"XOR"<<i<<" "<<j<<" "<<k<<" "<<l<< " " <<res<<endl;
 								error("test bit error!");
