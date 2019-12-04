@@ -1,5 +1,7 @@
 #include "emp-sh2pc/emp-sh2pc.h"
 #include <new>
+#include <iostream>
+#include <fstream>
 using namespace emp;
 using namespace std;
 
@@ -57,19 +59,13 @@ int main(int argc, char** argv) {
     const int k = atoi(argv[3]);
     K = k;
 
-    char fname_a[40];
-    char fname_b[40];
+    ifstream fin_a("data/kmeans/1.dat");
+    ifstream fin_b("data/kmeans/2.dat");
 
-    sprintf(fname_a, "data/kmeans/1.dat");
-    sprintf(fname_b, "data/kmeans/2.dat");
 
-    ifstream infile_a(fname_a);
-    ifstream infile_b(fname_b);
 
-    string inputs_a[LEN];
-    string inputs_b[LEN];
 
-    if( infile_a.is_open() && infile_b.is_open()) {
+    if( fin_a.is_open() && fin_b.is_open()) {
         for( int i=0; i<LEN; i++) {
             getline( infile_a, inputs_a[i]);
             getline( infile_b, inputs_b[i]);
