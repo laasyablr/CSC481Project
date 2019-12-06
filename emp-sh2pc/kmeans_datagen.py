@@ -1,9 +1,9 @@
 import random
-import sklearn
+import sklearn.cluster
+import pickle
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()  # for plot styling
 import numpy as np
-
+k = 3
 a = 10
 b = 2
 # fx = open("./1.dat", 'w')
@@ -17,7 +17,8 @@ ys = []
 init = str(a) + ',' + str(b)
 fx.write("%s\n"%init)
 fy.write("%s\n"%init)
-tmp = []
+tmp1 = []
+tmp2 = []
 for i in range(a):
 	tmpx = []
 	tmpy = []
@@ -38,28 +39,32 @@ for i in range(a):
 		str1 += str(aa)
 
 		str2 += str(bb)
-	tmp.append(gg1)
-	tmp.append(gg2)
+	tmp1.append(gg1)
+	tmp2.append(gg2)
 	fx.write("%s\n"%str1)
 	fy.write("%s\n"%str2)
+tmp = tmp1 + tmp2
 print (tmp)
-tmp = np.asarray(tmp)
-init_c = tmp 
-c= sklearn.cluster.k_means(tmp,init = init_c, n_clusters= 3,n_init = 10)
-print (c)
-center = c[0]
-labels = c[1]
-plt.scatter(tmp[:, 0], tmp[:, 1], c=labels,
-            s=50, cmap='viridis');
-plt.scatter(
-    center[:, 0], center[:, 1],
-    s=250, marker='*',
-    c='red', edgecolor='black',
-    label='centroids'
-)
-plt.legend(scatterpoints=1)
-plt.grid()
-plt.show()
+with open('data/kmeans/kmeans_data.pkl', 'wb') as f:
+	pickle.dump(tmp, f)
+
+# tmp = np.asarray(tmp)
+# init_c = tmp[:k]
+# c= sklearn.cluster.k_means(tmp,init = init_c, n_clusters= 3,n_init = 10)
+# print (c)
+# center = c[0]
+# labels = c[1]
+# plt.scatter(tmp[:, 0], tmp[:, 1], c=labels,
+#             s=50, cmap='viridis');
+# plt.scatter(
+#     center[:, 0], center[:, 1],
+#     s=250, marker='*',
+#     c='red', edgecolor='black',
+#     label='centroids'
+# )
+# plt.legend(scatterpoints=1)
+# plt.grid()
+# plt.show()
 
 
 
