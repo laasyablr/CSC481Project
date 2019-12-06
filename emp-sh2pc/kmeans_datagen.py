@@ -1,5 +1,9 @@
 import random
 import sklearn
+import matplotlib.pyplot as plt
+import seaborn as sns; sns.set()  # for plot styling
+import numpy as np
+
 a = 10
 b = 2
 # fx = open("./1.dat", 'w')
@@ -39,9 +43,23 @@ for i in range(a):
 	fx.write("%s\n"%str1)
 	fy.write("%s\n"%str2)
 print (tmp)
-c, l = sklearn.cluster.k_means(tmp, n_clusters= 3,n_init = 10)
-print (c,l)
-
+tmp = np.asarray(tmp)
+init_c = tmp 
+c= sklearn.cluster.k_means(tmp,init = init_c, n_clusters= 3,n_init = 10)
+print (c)
+center = c[0]
+labels = c[1]
+plt.scatter(tmp[:, 0], tmp[:, 1], c=labels,
+            s=50, cmap='viridis');
+plt.scatter(
+    center[:, 0], center[:, 1],
+    s=250, marker='*',
+    c='red', edgecolor='black',
+    label='centroids'
+)
+plt.legend(scatterpoints=1)
+plt.grid()
+plt.show()
 
 
 
