@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -Wall -march=native -O3 -maes -mrdseed -std=c++11 -pthread -Wall -march=native -O3 -maes -mrdseed -std=c++11  -rdynamic CMakeFiles/editdist.dir/test/editdist.cpp.o  -o bin/editdist -Wl,-rpath,/usr/local/lib -lssl -lcrypto -lboost_system -lgmp /usr/local/lib/libemp-tool.so 
