@@ -3,16 +3,18 @@
 <img src="https://raw.githubusercontent.com/emp-toolkit/emp-readme/master/art/logo-full.jpg" width=300px/>
 
 ## Installation
-
-1. Install prerequisites using instructions [here](https://github.com/emp-toolkit/emp-readme).
-2. Install [emp-tool](https://github.com/emp-toolkit/emp-tool).
-3. Install [emp-ot](https://github.com/emp-toolkit/emp-ot).
-4. git clone https://github.com/emp-toolkit/emp-sh2pc.git
-5. cd emp-sh2pc && cmake . && sudo make install
+0. mkdir csc481Lele && cd csc481lele
+1. Install prerequisites using instructions   `wget https://goo.gl/wmt4KB -O install.sh && bash install.sh`.
+2. git clone https://github.com/laasyablr/CSC481Project
+3. cp -r ./CSC481Project ./emp-sh2pc
+4. cd emp-sh2pc && cmake . && sudo make install
 
 ## Test
-
-* If you want to test the code in local machine, type
+### Test kmeans in secure computing
+* Data generation: `python kmeans_datagen.py  --n 10` ( n is the number of the points of each person).
+* Run the kmeans with secure computing: `./bin/kmeans 1 1212 3 & ./bin/kmeans 2 1212 3 > kmeans_output`. Usage: ./bin/kmeans <party> <port> <k>, where k is the number of the clusters of K-means. The reuslt of kmenas will save to ./kmeans_output. The first two column is the coordinates of each points, and the third column is the lable of k-menas cluster.
+* Result varification: to varify our kmeans algorithm, we apply a standart kmeans tool on the original data with same cluster number and compare the visulazation of two differnt approach.
+* If you want to test the code in lcal machine, type
 
    `./run ./bin/[binaries] 12345 [more opts]`
 * IF you want to test the code over two machine, type
