@@ -8,7 +8,7 @@
 2. `git clone https://github.com/laasyablr/CSC481Project`
 3. `cp -r ./CSC481Project ./emp-sh2pc`
 4. `cd emp-sh2pc && cmake . && sudo make install`
-
+<img src=https://github.com/laasyablr/CSC481Project/blob/master/fig/compare.png" width=800px/>
 ## Test
 ### Test kmeans in secure computing
 * Data generation: `python kmeans_datagen.py  --n 10` ( n is the number of the points of each person).
