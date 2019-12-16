@@ -3,11 +3,16 @@ import sklearn.cluster
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
-k = 3
-a = 10
+import argparse
+def parse_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--n", type=int, default=10, help='The length of the points that we need to generate for each person')
+
+	return parser.parse_args()
+config = parse_args()
+
+a = config.n
 b = 2
-# fx = open("./1.dat", 'w')
-# fy = open("./2.dat", 'w')
 
 fx = open("data/kmeans/1.dat", 'w')
 fy = open("data/kmeans/2.dat", 'w')

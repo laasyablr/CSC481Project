@@ -3,8 +3,16 @@ import sklearn.cluster
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
-k = 3
+import argparse
 
+def parse_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--k", type=int, default=3, help='The number of the kmeans cluster')
+	parser.add_argument("--mode", type=str, default='secure', help='secure: our secure kmeans, or official: the official kmeans without security')
+
+	return parser.parse_args()
+config = parse_args()
+k = config.k
 with open('data/kmeans/kmeans_data.pkl', 'rb') as f:
 	tmp = pickle.load(f)
 
@@ -62,5 +70,9 @@ def plot_secure(tmp, k):
 	plt.grid()
 	plt.show()
 
-plot_secure(tmp, k)	
+mode = config.mode
+if mode !='secure':
+	plot_gt(tmp,k)
+else:
+	plot_secure(tmp, k)	
 
